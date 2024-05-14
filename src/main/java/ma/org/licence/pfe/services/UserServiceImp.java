@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,28 +34,32 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto getUserById(String id) {
-        return userRepository.findById(id)
-                .map(userDtoMapper).get();
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            return userRepository.findById(id)
+                    .map(userDtoMapper).get();
+        } else {
+            throw new ResourceNotFoundException(
+                    String.format("User with id [%s] not found", id)
+            );
+        }
+
     }
 
     @Override
     public void addUser(User user) {
-
         userRepository.save(user);
-
     }
 
     @Override
     public void deleteUser(String id) {
-        checkIfUserExistsOrThrow(id);
-        userRepository.deleteById(id);
-    }
-    private void checkIfUserExistsOrThrow(String userId) {
-        UserDto user = getUserById(userId);
-        if (user == null) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        } else {
             throw new ResourceNotFoundException(
-                    "User with id [%s] not found".formatted(userId)
+                    String.format("User with id [%s] not found", id)
             );
         }
     }
+
 }

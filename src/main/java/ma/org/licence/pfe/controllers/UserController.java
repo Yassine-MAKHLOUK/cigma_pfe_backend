@@ -16,38 +16,46 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-    private final UserServiceImp userServiceImp;
+    private final UserServiceImp userService;
 
     @Autowired
-    public UserController(UserServiceImp userServiceImp) {
-        this.userServiceImp = userServiceImp;
+    public UserController(UserServiceImp userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/all")
     public ResponseEntity<Object> getAllUsers() {
-        List<UserDto> data = userServiceImp.getAllUsers();
+        List<UserDto> data = userService.getAllUsers();
         return ResponseHandler.generateResponse("Data retrieved successfully!", HttpStatus.OK, data);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id) {
         try {
-            UserDto user = userServiceImp.getUserById(id);
+            UserDto user = userService.getUserById(id);
             return ResponseHandler.generateResponse("User retrieved successfully!", HttpStatus.OK, user);
-        } catch (UserNotFoundException e) {
+        } catch (Exception e) {
             return ResponseHandler.generateErrorResponse("User not found", HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/add")
     public ResponseEntity<Object> createUser(@RequestBody User user) {
-        userServiceImp.addUser(user);
-        return ResponseHandler.generateResponse("User created successfully!", HttpStatus.CREATED, null);
+        try {
+            userService.addUser(user);
+            return ResponseHandler.generateResponse("User created successfully!", HttpStatus.CREATED, null);
+        }catch (Exception e) {
+            return ResponseHandler.generateErrorResponse("Something went wrong in the data you provided", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable String id) {
-        userServiceImp.deleteUser(id);
-        return ResponseHandler.generateResponse("User deleted successfully!", HttpStatus.NO_CONTENT, null);
+        try {
+            userService.deleteUser(id);
+            return ResponseHandler.generateResponse("User deleted successfully!", HttpStatus.OK, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse("User not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
