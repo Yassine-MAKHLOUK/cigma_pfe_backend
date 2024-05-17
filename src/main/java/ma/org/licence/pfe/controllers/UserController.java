@@ -53,7 +53,7 @@ public class UserController {
     public ResponseEntity<Object> deleteUser(@PathVariable String id) {
         try {
             userService.deleteUser(id);
-            return ResponseHandler.generateResponse("User deleted successfully!", HttpStatus.OK, null);
+            return ResponseHandler.generateResponse("User deleted successfully!", HttpStatus.NO_CONTENT, null);
         } catch (Exception e) {
             return ResponseHandler.generateErrorResponse("User not found", HttpStatus.NOT_FOUND);
         }

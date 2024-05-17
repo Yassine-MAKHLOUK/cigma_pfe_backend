@@ -11,7 +11,10 @@ public interface UserRepository extends MongoRepository<User, String> {
     User save(User user);
     List<User> findAll();
     Optional<User> findById(String id);
+    Optional<User> findByEmail(String email);
     boolean existsById(String id);
     void deleteById(String id);
+
+
 
 }
