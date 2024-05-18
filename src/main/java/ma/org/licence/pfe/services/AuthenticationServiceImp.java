@@ -3,6 +3,7 @@ package ma.org.licence.pfe.services;
 import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.enums.Role;
+import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.models.Login;
 import ma.org.licence.pfe.models.Name;
 import ma.org.licence.pfe.repositories.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationServiceImp implements AuthenticationService{
 
     private final UserRepository userRepository;
+    private final UserServiceImp userServiceImp;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -39,10 +41,11 @@ public class AuthenticationServiceImp implements AuthenticationService{
     }
 
     @Override
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws BadRequestException {
         Name name = new Name("Mr.", request.getName(), "", "");
         String pwd = passwordEncoder.encode(request.getPassword());
         Login login =  new Login("", request.getEmail(), pwd);
+
         var user = User.builder()
                 .name(name)
                 .email(request.getEmail())
@@ -50,7 +53,7 @@ public class AuthenticationServiceImp implements AuthenticationService{
                 .login(login)
                 .role(Role.CLIENT)
                 .build();
-        userRepository.save(user);
+        userServiceImp.addUser(user);
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

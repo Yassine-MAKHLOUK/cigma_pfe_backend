@@ -7,5 +7,5 @@ import ma.org.licence.pfe.security.RegisterRequest;
 public interface AuthenticationService {
 
     AuthenticationResponse authenticate(AuthenticationRequest request);
-    AuthenticationResponse register(RegisterRequest request);
+    AuthenticationResponse register(RegisterRequest request) throws Exception;
 }

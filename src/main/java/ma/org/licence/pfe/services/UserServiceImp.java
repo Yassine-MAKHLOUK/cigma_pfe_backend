@@ -3,6 +3,7 @@ package ma.org.licence.pfe.services;
 import ma.org.licence.pfe.dto.user.UserDto;
 import ma.org.licence.pfe.dto.user.UserDtoMapper;
 import ma.org.licence.pfe.entities.User;
+import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.exceptions.ResourceNotFoundException;
 import ma.org.licence.pfe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        userRepository.save(user);
+    public void addUser(User user) throws BadRequestException {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new BadRequestException("User already Exist");
+        }else {
+            userRepository.save(user);
+        }
     }
 
     @Override

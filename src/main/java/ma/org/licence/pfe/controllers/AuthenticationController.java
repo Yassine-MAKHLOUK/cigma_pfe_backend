@@ -1,6 +1,8 @@
 package ma.org.licence.pfe.controllers;
 
 import lombok.RequiredArgsConstructor;
+import ma.org.licence.pfe.dto.user.UserDto;
+import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.response.ResponseHandler;
 import ma.org.licence.pfe.security.AuthenticationRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
@@ -20,16 +22,22 @@ public class AuthenticationController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authenticationServiceImp.register(request));
+    public ResponseEntity<Object> register(@RequestBody RegisterRequest request) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("User Added successfully!", HttpStatus.OK, authenticationServiceImp.register(request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse("User already Exist", HttpStatus.BAD_REQUEST);
+        }
+
     }
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok(authenticationServiceImp.authenticate(request));
+    public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequest request){
+        try {
+            return ResponseHandler.generateResponse("Logged successfully!", HttpStatus.OK, authenticationServiceImp.authenticate(request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse("False crédentials ", HttpStatus.BAD_REQUEST);
+        }
     }
-    @GetMapping("/hello")
-    public ResponseEntity<Object> Hello(){
-        return ResponseHandler.generateResponse("Hello", HttpStatus.OK, null);
-    }
+
 
 }
