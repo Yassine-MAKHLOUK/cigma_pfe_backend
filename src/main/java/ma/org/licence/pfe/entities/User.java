@@ -2,6 +2,8 @@ package ma.org.licence.pfe.entities;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +32,7 @@ public class User implements UserDetails {
 
     private Name name;
     private String email;
+    private String pwd;
     private Login login;
     private Picture picture;
 
@@ -37,53 +40,6 @@ public class User implements UserDetails {
     private Role role;
 
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Name getName() {
-        return name;
-    }
-
-    public void setName(Name name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Login getLogin() {
-        return login;
-    }
-
-    public void setLogin(Login login) {
-        this.login = login;
-    }
-
-    public Picture getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Picture picture) {
-        this.picture = picture;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
 
     //UserDetails Methods
@@ -94,7 +50,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.getLogin().getPassword();
+        return this.getPwd();
     }
 
     @Override
@@ -123,4 +79,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
