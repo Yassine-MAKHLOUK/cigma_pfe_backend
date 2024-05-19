@@ -26,7 +26,7 @@ public class AuthenticationController {
         try {
             return ResponseHandler.generateResponse("User Added successfully!", HttpStatus.OK, authenticationServiceImp.register(request));
         } catch (Exception e) {
-            return ResponseHandler.generateErrorResponse("User already Exist", HttpStatus.BAD_REQUEST);
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -35,7 +35,7 @@ public class AuthenticationController {
         try {
             return ResponseHandler.generateResponse("Logged successfully!", HttpStatus.OK, authenticationServiceImp.authenticate(request));
         } catch (Exception e) {
-            return ResponseHandler.generateErrorResponse("False crédentials ", HttpStatus.BAD_REQUEST);
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

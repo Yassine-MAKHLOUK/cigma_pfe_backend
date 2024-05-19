@@ -25,8 +25,12 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<Object> getAllUsers() {
-        List<UserDto> data = userService.getAllUsers();
-        return ResponseHandler.generateResponse("Data retrieved successfully!", HttpStatus.OK, data);
+        try {
+            List<UserDto> data = userService.getAllUsers();
+            return ResponseHandler.generateResponse("Data retrieved successfully!", HttpStatus.OK, data);
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{id}")
@@ -35,7 +39,7 @@ public class UserController {
             UserDto user = userService.getUserById(id);
             return ResponseHandler.generateResponse("User retrieved successfully!", HttpStatus.OK, user);
         } catch (Exception e) {
-            return ResponseHandler.generateErrorResponse("User not found", HttpStatus.NOT_FOUND);
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -45,7 +49,7 @@ public class UserController {
             userService.addUser(user);
             return ResponseHandler.generateResponse("User created successfully!", HttpStatus.CREATED, null);
         }catch (Exception e) {
-            return ResponseHandler.generateErrorResponse("Something went wrong in the data you provided", HttpStatus.BAD_REQUEST);
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,7 +59,7 @@ public class UserController {
             userService.deleteUser(id);
             return ResponseHandler.generateResponse("User deleted successfully!", HttpStatus.NO_CONTENT, null);
         } catch (Exception e) {
-            return ResponseHandler.generateErrorResponse("User not found", HttpStatus.NOT_FOUND);
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
