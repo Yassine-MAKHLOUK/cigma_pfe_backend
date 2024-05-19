@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.org.licence.pfe.enums.Gender;
 import ma.org.licence.pfe.enums.Role;
 import ma.org.licence.pfe.models.Login;
 import ma.org.licence.pfe.models.Name;
@@ -29,6 +30,8 @@ public class User implements UserDetails {
     private String id;
 
     private Name name;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String email;
     private String pwd;
     private Login login;

@@ -2,6 +2,7 @@ package ma.org.licence.pfe.services;
 
 import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.entities.User;
+import ma.org.licence.pfe.enums.Gender;
 import ma.org.licence.pfe.enums.Role;
 import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.models.Login;
@@ -42,12 +43,15 @@ public class AuthenticationServiceImp implements AuthenticationService{
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) throws BadRequestException {
-        Name name = new Name("Mr.", request.getName(), "", "");
+        String title = request.getGender() == Gender.Male ? "Mr." : request.getGender() == Gender.Female ? "Ms." : "";
+
+        Name name = new Name(title, request.getFirstname(), request.getMiddlename(), request.getLastname());
         String pwd = passwordEncoder.encode(request.getPassword());
         Login login =  new Login("", request.getEmail(), pwd);
 
         var user = User.builder()
                 .name(name)
+                .gender(request.getGender())
                 .email(request.getEmail())
                 .pwd(pwd)
                 .login(login)

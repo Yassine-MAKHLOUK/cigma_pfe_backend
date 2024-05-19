@@ -1,5 +1,11 @@
 package ma.org.licence.pfe.entities;
 
+import lombok.Builder;
+import ma.org.licence.pfe.enums.Gender;
+import ma.org.licence.pfe.enums.Role;
+import ma.org.licence.pfe.models.Login;
+import ma.org.licence.pfe.models.Name;
+import ma.org.licence.pfe.models.Picture;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,4 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @TypeAlias("barber")
 public class Barber extends User{
 
+
+    public Barber() {
+        super();
+        this.setRole(Role.BARBER);
+    }
+
+    @Builder(builderMethodName = "barberBuilder")
+    public Barber(String id, Name name, Gender gender, String email, String pwd, Login login, Picture picture, Role role) {
+        super(id, name, gender, email, pwd, login, picture, Role.BARBER);
+    }
 }
