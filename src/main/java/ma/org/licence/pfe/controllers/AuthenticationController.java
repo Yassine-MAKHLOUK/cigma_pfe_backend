@@ -6,6 +6,7 @@ import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.response.ResponseHandler;
 import ma.org.licence.pfe.security.AuthenticationRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
+import ma.org.licence.pfe.security.BarberRegisterRequest;
 import ma.org.licence.pfe.security.RegisterRequest;
 import ma.org.licence.pfe.services.AuthenticationServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 
     private final AuthenticationServiceImp authenticationServiceImp;
@@ -25,6 +27,15 @@ public class AuthenticationController {
     public ResponseEntity<Object> register(@RequestBody RegisterRequest request) throws BadRequestException {
         try {
             return ResponseHandler.generateResponse("User Added successfully!", HttpStatus.OK, authenticationServiceImp.register(request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    @PostMapping("/barberRegister")
+    public ResponseEntity<Object> barberRegister(@RequestBody BarberRegisterRequest request) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("Barber Added successfully!", HttpStatus.OK, authenticationServiceImp.barberRegister(request));
         } catch (Exception e) {
             return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

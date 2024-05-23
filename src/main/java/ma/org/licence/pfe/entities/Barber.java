@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @TypeAlias("barber")
 public class Barber extends User{
 
+    private String barberName;
 
     public Barber() {
         super();
@@ -20,7 +21,8 @@ public class Barber extends User{
     }
 
     @Builder(builderMethodName = "barberBuilder")
-    public Barber(String id, Name name, Gender gender, String email, String pwd, Login login, Picture picture, Role role) {
+    public Barber(String id, Name name, Gender gender, String email, String pwd, Login login, Picture picture, Role role, String barberName) {
         super(id, name, gender, email, pwd, login, picture, Role.BARBER);
+        this.barberName = barberName;
     }
 }
