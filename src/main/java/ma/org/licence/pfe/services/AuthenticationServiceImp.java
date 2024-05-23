@@ -10,11 +10,12 @@ import ma.org.licence.pfe.models.Login;
 import ma.org.licence.pfe.models.Name;
 import ma.org.licence.pfe.repositories.UserRepository;
 import ma.org.licence.pfe.security.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -81,5 +82,10 @@ public class AuthenticationServiceImp implements AuthenticationService{
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    @Override
+    public List<User> getAllBarbers() {
+        return userRepository.findByRole(Role.BARBER);
     }
 }

@@ -2,6 +2,8 @@ package ma.org.licence.pfe.controllers;
 
 import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.dto.user.UserDto;
+import ma.org.licence.pfe.entities.Barber;
+import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.response.ResponseHandler;
 import ma.org.licence.pfe.security.AuthenticationRequest;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -22,6 +26,16 @@ public class AuthenticationController {
 
     private final AuthenticationServiceImp authenticationServiceImp;
 
+
+    @GetMapping("/allBarbers")
+    public ResponseEntity<Object> getAllUsers() {
+        try {
+            List<User> data = authenticationServiceImp.getAllBarbers();
+            return ResponseHandler.generateResponse("Data retrieved successfully!", HttpStatus.OK, data);
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody RegisterRequest request) throws BadRequestException {
