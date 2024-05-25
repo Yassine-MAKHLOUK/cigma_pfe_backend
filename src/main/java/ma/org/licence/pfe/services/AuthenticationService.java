@@ -1,5 +1,6 @@
 package ma.org.licence.pfe.services;
 
+import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.security.AuthenticationRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
@@ -12,6 +13,5 @@ public interface AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request);
     public AuthenticationResponse register(RegisterRequest request) throws Exception;
-    public AuthenticationResponse barberRegister(BarberRegisterRequest request) throws Exception;
-    public List<User> getAllBarbers() ;
+
 }

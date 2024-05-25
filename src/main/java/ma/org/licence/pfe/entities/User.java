@@ -31,7 +31,6 @@ public class User implements UserDetails {
 
     private Name name;
     @Enumerated(EnumType.STRING)
-    private Gender gender;
     private String email;
     private String pwd;
     private Login login;

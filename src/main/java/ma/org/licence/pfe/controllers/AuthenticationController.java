@@ -27,15 +27,6 @@ public class AuthenticationController {
     private final AuthenticationServiceImp authenticationServiceImp;
 
 
-    @GetMapping("/allBarbers")
-    public ResponseEntity<Object> getAllUsers() {
-        try {
-            List<User> data = authenticationServiceImp.getAllBarbers();
-            return ResponseHandler.generateResponse("Data retrieved successfully!", HttpStatus.OK, data);
-        } catch (Exception e) {
-            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody RegisterRequest request) throws BadRequestException {
@@ -46,15 +37,7 @@ public class AuthenticationController {
         }
 
     }
-    @PostMapping("/barberRegister")
-    public ResponseEntity<Object> barberRegister(@RequestBody BarberRegisterRequest request) throws BadRequestException {
-        try {
-            return ResponseHandler.generateResponse("Barber Added successfully!", HttpStatus.OK, authenticationServiceImp.barberRegister(request));
-        } catch (Exception e) {
-            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
 
-    }
     @PostMapping("/login")
     public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequest request){
         try {
