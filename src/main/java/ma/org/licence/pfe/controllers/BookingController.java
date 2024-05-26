@@ -28,5 +28,24 @@ public class BookingController {
             return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/user/{token}")
+    public ResponseEntity<Object> getBookByUsername(@PathVariable String token) {
+        try {
+
+            return ResponseHandler.generateResponse("Bookings retrieved successfully!", HttpStatus.OK, bookingService.getBookByUser(token));
+        }catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/barber/{token}")
+    public ResponseEntity<Object> getBookBybarberName(@PathVariable String token) {
+        try {
+
+            return ResponseHandler.generateResponse("Bookings retrieved successfully!", HttpStatus.OK, bookingService.getBookByBarber(token));
+        }catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

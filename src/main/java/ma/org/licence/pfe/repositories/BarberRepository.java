@@ -14,6 +14,7 @@ public interface BarberRepository extends MongoRepository<Barber, String> {
     @Query("{_class: \"barber\"}")
     List<Barber> findAllBarbers();
     Optional<Barber> findByBarberName(String barberName);
+    Optional<Barber> findByEmail(String email);
     boolean existsByBarberName(String barberName);
 
 }

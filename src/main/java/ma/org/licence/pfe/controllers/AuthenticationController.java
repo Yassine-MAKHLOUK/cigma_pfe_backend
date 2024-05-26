@@ -47,5 +47,14 @@ public class AuthenticationController {
         }
     }
 
+    @GetMapping("/userRole/{token}")
+    public ResponseEntity<Object> userRole(@PathVariable String token){
+        try {
+            return ResponseHandler.generateResponse("Logged successfully!", HttpStatus.OK, authenticationServiceImp.userRoleByEmail(token));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

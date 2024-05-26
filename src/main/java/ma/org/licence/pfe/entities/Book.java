@@ -11,6 +11,7 @@ import ma.org.licence.pfe.enums.BookingStatus;
 import ma.org.licence.pfe.models.BarberPrestation;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -23,7 +24,7 @@ public class Book {
     private String bookingId;
     private User user;
     private Barber barber;
-    private Date bookingTime;
+    private LocalDate bookingTime;
     private BarberPrestation barberPrestation;
     @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;

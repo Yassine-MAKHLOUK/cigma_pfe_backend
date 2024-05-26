@@ -40,6 +40,7 @@ public class AuthenticationServiceImp implements AuthenticationService{
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -64,6 +65,13 @@ public class AuthenticationServiceImp implements AuthenticationService{
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    @Override
+    public String userRoleByEmail(String token) {
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).get();
+        return user.getRole().name();
     }
 
 }
