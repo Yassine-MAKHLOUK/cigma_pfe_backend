@@ -3,21 +3,18 @@ package ma.org.licence.pfe.services;
 import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.entities.Book;
-import ma.org.licence.pfe.entities.Client;
 import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.enums.BookingStatus;
 import ma.org.licence.pfe.models.BarberPrestation;
 import ma.org.licence.pfe.repositories.BarberRepository;
 import ma.org.licence.pfe.repositories.BookRepository;
 import ma.org.licence.pfe.repositories.UserRepository;
-import ma.org.licence.pfe.security.BookRequest;
+import ma.org.licence.pfe.requests.BookRequest;
 import ma.org.licence.pfe.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -46,8 +43,8 @@ public class BookingServiceImp implements BookingService{
         long prestationId = new Random().nextLong();
         var service = BarberPrestation.builder()
                 .prestationId(prestationId+"")
-                .prestationName(request.getService())
-                .prestationPrice("50")
+                .name(request.getService())
+                .price(50)
                 .build();
 
         var book = Book.builder()

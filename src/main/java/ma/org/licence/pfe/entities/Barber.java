@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import ma.org.licence.pfe.enums.Gender;
 import ma.org.licence.pfe.enums.Role;
+import ma.org.licence.pfe.models.BarberPrestation;
 import ma.org.licence.pfe.models.Login;
 import ma.org.licence.pfe.models.Name;
 import ma.org.licence.pfe.models.Picture;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +21,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Barber extends User{
 
     private String barberName;
+    private List<BarberPrestation> prestation;
 
     public Barber() {
         super();

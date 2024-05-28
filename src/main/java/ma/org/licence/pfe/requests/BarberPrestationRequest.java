@@ -1,6 +1,5 @@
-package ma.org.licence.pfe.models;
+package ma.org.licence.pfe.requests;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BarberPrestation {
-    @Id
-    private String prestationId;
+public class BarberPrestationRequest {
+    private String token;
     private String name;
     private String description;
     private int price;
     private int promo;
-
 }

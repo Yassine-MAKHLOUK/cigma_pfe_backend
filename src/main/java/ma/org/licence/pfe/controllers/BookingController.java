@@ -2,10 +2,8 @@ package ma.org.licence.pfe.controllers;
 
 
 import lombok.RequiredArgsConstructor;
-import ma.org.licence.pfe.entities.Barber;
-import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.response.ResponseHandler;
-import ma.org.licence.pfe.security.BookRequest;
+import ma.org.licence.pfe.requests.BookRequest;
 import ma.org.licence.pfe.services.BookingServiceImp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

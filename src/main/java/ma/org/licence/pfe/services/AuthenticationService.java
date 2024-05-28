@@ -1,14 +1,8 @@
 package ma.org.licence.pfe.services;
 
-import ma.org.licence.pfe.entities.Barber;
-import ma.org.licence.pfe.entities.User;
-import ma.org.licence.pfe.enums.Role;
 import ma.org.licence.pfe.security.AuthenticationRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
-import ma.org.licence.pfe.security.BarberRegisterRequest;
-import ma.org.licence.pfe.security.RegisterRequest;
-
-import java.util.List;
+import ma.org.licence.pfe.requests.RegisterRequest;
 
 public interface AuthenticationService {
 

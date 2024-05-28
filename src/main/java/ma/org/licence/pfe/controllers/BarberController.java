@@ -3,8 +3,9 @@ package ma.org.licence.pfe.controllers;
 import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.exceptions.BadRequestException;
+import ma.org.licence.pfe.requests.BarberPrestationRequest;
 import ma.org.licence.pfe.response.ResponseHandler;
-import ma.org.licence.pfe.security.BarberRegisterRequest;
+import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.services.BarberServiceImp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,15 @@ public class BarberController {
     public ResponseEntity<Object> barberRegister(@RequestBody BarberRegisterRequest request) throws BadRequestException {
         try {
             return ResponseHandler.generateResponse("Barber Added successfully!", HttpStatus.OK, barberServiceImp.barberRegister(request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    @PostMapping("/addPrestation")
+    public ResponseEntity<Object> addBarberPrestation(@RequestBody BarberPrestationRequest request) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("Barber Added successfully!", HttpStatus.OK, barberServiceImp.addBarberPrestation(request));
         } catch (Exception e) {
             return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

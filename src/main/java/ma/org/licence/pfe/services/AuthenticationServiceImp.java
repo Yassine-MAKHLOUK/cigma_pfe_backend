@@ -1,23 +1,19 @@
 package ma.org.licence.pfe.services;
 
 import lombok.RequiredArgsConstructor;
-import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.entities.Client;
 import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.enums.Gender;
-import ma.org.licence.pfe.enums.Role;
 import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.models.Login;
 import ma.org.licence.pfe.models.Name;
-import ma.org.licence.pfe.repositories.BarberRepository;
 import ma.org.licence.pfe.repositories.UserRepository;
+import ma.org.licence.pfe.requests.RegisterRequest;
 import ma.org.licence.pfe.security.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

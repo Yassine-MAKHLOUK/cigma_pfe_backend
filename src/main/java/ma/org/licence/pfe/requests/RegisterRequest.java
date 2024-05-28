@@ -1,4 +1,4 @@
-package ma.org.licence.pfe.security;
+package ma.org.licence.pfe.requests;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,8 +12,13 @@ import ma.org.licence.pfe.enums.Gender;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BarberRegisterRequest {
-    private String barberName;
+public class RegisterRequest {
+
+    private String firstname;
+    private String middlename;
+    private String lastname;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String email;
     private String password;
 }
