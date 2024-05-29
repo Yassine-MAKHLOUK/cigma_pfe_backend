@@ -2,9 +2,12 @@ package ma.org.licence.pfe.services;
 
 import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.entities.Barber;
+import ma.org.licence.pfe.enums.BarberState;
 import ma.org.licence.pfe.enums.Role;
+import ma.org.licence.pfe.enums.WeekDays;
 import ma.org.licence.pfe.models.BarberPrestation;
 import ma.org.licence.pfe.models.Login;
+import ma.org.licence.pfe.models.Schedule;
 import ma.org.licence.pfe.repositories.BarberRepository;
 import ma.org.licence.pfe.requests.BarberPrestationRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
@@ -15,8 +18,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,22 +40,40 @@ public class BarberServiceImp implements BarberService{
     @Override
     public AuthenticationResponse barberRegister(BarberRegisterRequest request) throws Exception {
 
-        String pwd = passwordEncoder.encode(request.getPassword());
-        Login login =  new Login("", request.getEmail(), pwd);
+        // Check if the barber name exists
+        if (barberRepository.existsByBarberName(request.getBarberName())) {
+            throw new IllegalArgumentException("Barber already exist.");
+        }
 
-        var user = Barber.barberBuilder()
+        String pwd = passwordEncoder.encode(request.getPassword());
+        Login login = new Login(UniqueIdGenerator.generateCustomId(), request.getEmail(), pwd);
+
+        List<BarberPrestation> prestation = new ArrayList<>();
+        List<Schedule> schedule = createDefaultWeeklySchedule();
+
+        Barber user = Barber.barberBuilder()
                 .barberName(request.getBarberName())
                 .email(request.getEmail())
                 .pwd(pwd)
                 .login(login)
+                .prestation(prestation)
+                .schedule(schedule)
                 .build();
+
         userServiceImp.addUser(user);
 
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
+
+    private List<Schedule> createDefaultWeeklySchedule() {
+        return Arrays.stream(WeekDays.values())
+                .map(day -> new Schedule(day, LocalTime.of(0,0, 0), LocalTime.of(0,0, 0), BarberState.CLOSED, ""))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<Barber> getAllBarbers() {
