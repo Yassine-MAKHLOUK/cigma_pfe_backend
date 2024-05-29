@@ -5,11 +5,10 @@ import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.enums.BarberState;
 import ma.org.licence.pfe.enums.Role;
 import ma.org.licence.pfe.enums.WeekDays;
-import ma.org.licence.pfe.models.BarberPrestation;
-import ma.org.licence.pfe.models.Login;
-import ma.org.licence.pfe.models.Schedule;
+import ma.org.licence.pfe.models.*;
 import ma.org.licence.pfe.repositories.BarberRepository;
 import ma.org.licence.pfe.requests.BarberPrestationRequest;
+import ma.org.licence.pfe.requests.SetAdressRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
 import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.security.JwtService;
@@ -108,6 +107,25 @@ public class BarberServiceImp implements BarberService{
         barberRepository.save(barber);
 
         return barber;
+    }
+
+    @Override
+    public Location setBarberAddress(String token, SetAdressRequest request) {
+        String email = jwtService.extractUsername(request.getToken());
+        Barber barber = barberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Barber not found"));
+        Coordinates coordinates = new Coordinates(request.getLongitude(), request.getLatitude());
+        var barberAddress = Location.builder()
+                .address(request.getAddress())
+                .state(request.getState())
+                .city(request.getCity())
+                .country(request.getCountry())
+                .postcode(request.getPostcode())
+                .coordinates(coordinates)
+                .build();
+        barber.setAddress(barberAddress);
+        barberRepository.save(barber);
+        return barber.getAddress();
     }
 
 }

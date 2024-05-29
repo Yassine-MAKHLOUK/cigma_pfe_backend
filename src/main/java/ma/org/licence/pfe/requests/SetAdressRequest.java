@@ -1,4 +1,5 @@
-package ma.org.licence.pfe.models;
+package ma.org.licence.pfe.requests;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +10,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Location {
+public class SetAdressRequest {
+    private String token;
     private String address;
+    private int postcode;
     private String city;
     private String state;
     private String country;
-    private int postcode;
-    private Coordinates coordinates;
-    private Timezone timezone;
+    private String longitude;
+    private String latitude;
 }

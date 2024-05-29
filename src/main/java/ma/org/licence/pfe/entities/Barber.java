@@ -21,6 +21,7 @@ public class Barber extends User{
     private String barberName;
     private List<BarberPrestation> prestation;
     private List<Schedule> schedule;
+    private Location address;
 
     public Barber() {
         super();

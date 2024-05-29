@@ -29,6 +29,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/api/v1/auth/userRole/**").permitAll()
                     .requestMatchers("/api/v1/barber/all").permitAll()
+                    .requestMatchers("/api/v1/barber/barberRegister").permitAll()
                     .requestMatchers("/api/v1/book/clientBook").permitAll()
                     .anyRequest()
                     .authenticated()

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.requests.BarberPrestationRequest;
+import ma.org.licence.pfe.requests.SetAdressRequest;
 import ma.org.licence.pfe.response.ResponseHandler;
 import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.services.BarberServiceImp;
@@ -40,10 +41,20 @@ public class BarberController {
         }
 
     }
+
     @PostMapping("/addPrestation")
     public ResponseEntity<Object> addBarberPrestation(@RequestBody BarberPrestationRequest request) throws BadRequestException {
         try {
             return ResponseHandler.generateResponse("Barber Added successfully!", HttpStatus.OK, barberServiceImp.addBarberPrestation(request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    @PostMapping("/barberAddress")
+    public ResponseEntity<Object> setBarberAddress(@RequestBody SetAdressRequest request) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("Address Added successfully!", HttpStatus.OK, barberServiceImp.setBarberAddress(request.getToken(), request));
         } catch (Exception e) {
             return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
