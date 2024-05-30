@@ -30,7 +30,6 @@ public class UserServiceImp implements UserService {
                 .stream()
                 .map(userDtoMapper)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -44,15 +43,28 @@ public class UserServiceImp implements UserService {
                     String.format("User with id [%s] not found", id)
             );
         }
-
     }
 
     @Override
-    public void addUser(User user) throws BadRequestException {
+    public UserDto getUserByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            return userRepository.findById(email)
+                    .map(userDtoMapper).get();
+        } else {
+            throw new ResourceNotFoundException(
+                    String.format("User with email [%s] not found", email)
+            );
+        }
+    }
+
+    @Override
+    public User addUser(User user) throws BadRequestException {
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
             throw new BadRequestException("User already Exist");
         }else {
             userRepository.save(user);
+            return user;
         }
     }
 

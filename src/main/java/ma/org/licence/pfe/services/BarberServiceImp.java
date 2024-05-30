@@ -67,7 +67,7 @@ public class BarberServiceImp implements BarberService{
                 .build();
     }
 
-    private List<Schedule> createDefaultWeeklySchedule() {
+    List<Schedule> createDefaultWeeklySchedule() {
         return Arrays.stream(WeekDays.values())
                 .map(day -> new Schedule(day, LocalTime.of(0,0, 0), LocalTime.of(0,0, 0), BarberState.CLOSED, ""))
                 .collect(Collectors.toList());
@@ -77,6 +77,12 @@ public class BarberServiceImp implements BarberService{
     @Override
     public List<Barber> getAllBarbers() {
         return barberRepository.findAllBarbers();
+    }
+
+    @Override
+    public Barber getBarber(String barberName) {
+        Barber barber = barberRepository.findByBarberName(barberName).get();
+        return barber;
     }
 
     @Override

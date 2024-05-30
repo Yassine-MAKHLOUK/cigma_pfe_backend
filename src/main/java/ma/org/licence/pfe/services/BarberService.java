@@ -12,6 +12,7 @@ import java.util.List;
 public interface BarberService {
     public AuthenticationResponse barberRegister(BarberRegisterRequest request) throws Exception;
     public List<Barber> getAllBarbers() ;
+    public Barber getBarber(String barberName);
     public Barber addBarberPrestation(BarberPrestationRequest request);
     public Location setBarberAddress(String token, SetAdressRequest request);
 }

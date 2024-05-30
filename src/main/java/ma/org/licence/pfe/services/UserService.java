@@ -9,6 +9,7 @@ public interface UserService {
 
     public List<UserDto> getAllUsers();
     public UserDto getUserById(String id);
-    public void addUser(User user);
+    public UserDto getUserByEmail(String email);
+    public User addUser(User user);
     void deleteUser(String id);
 }

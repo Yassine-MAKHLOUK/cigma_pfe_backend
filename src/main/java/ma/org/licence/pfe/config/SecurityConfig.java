@@ -31,6 +31,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/barber/all").permitAll()
                     .requestMatchers("/api/v1/barber/barberRegister").permitAll()
                     .requestMatchers("/api/v1/book/clientBook").permitAll()
+                    .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
                 )

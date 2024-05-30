@@ -26,6 +26,7 @@ public class Book {
     private Barber barber;
     private LocalDate bookingTime;
     private BarberPrestation barberPrestation;
+    private String prestationName;
     @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
     private Date createdAt;
