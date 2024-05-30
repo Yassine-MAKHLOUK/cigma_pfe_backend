@@ -7,10 +7,13 @@ import ma.org.licence.pfe.entities.Book;
 import ma.org.licence.pfe.entities.Client;
 import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.enums.BookingStatus;
+import ma.org.licence.pfe.enums.Gender;
+import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.exceptions.ResourceNotFoundException;
 import ma.org.licence.pfe.exceptions.UserNotFoundException;
 import ma.org.licence.pfe.models.BarberPrestation;
 import ma.org.licence.pfe.models.Login;
+import ma.org.licence.pfe.models.Name;
 import ma.org.licence.pfe.models.Schedule;
 import ma.org.licence.pfe.repositories.BarberRepository;
 import ma.org.licence.pfe.repositories.BookRepository;
@@ -18,6 +21,7 @@ import ma.org.licence.pfe.repositories.ClientRepository;
 import ma.org.licence.pfe.repositories.UserRepository;
 import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.requests.BookRequest;
+import ma.org.licence.pfe.requests.UserAddRequest;
 import ma.org.licence.pfe.security.JwtService;
 import ma.org.licence.pfe.shared.UniqueIdGenerator;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,22 +51,49 @@ public class AdminServiceImp implements AdminService {
     private final AuthenticationManager authenticationManager;
 
 
+    /***
+     * User Methods
+     * ***/
+
     @Override
     public List<User> getAllUsers() {
         return  userRepository.findAll();
     }
 
-    /***
-     * User Methods
-     * ***/
     @Override
-    public User addUser(User user) {
-        return userServiceImp.addUser(user);
+    public User addUser(UserAddRequest userRequest) {
+
+        Name name = new Name("", userRequest.getFirstname(), userRequest.getMiddlename(), userRequest.getLastname());
+
+        Optional<User> existingUser = userRepository.findByEmail(userRequest.getEmail());
+
+        if (existingUser.isPresent()) {
+            throw new BadRequestException("User already exists");
+        }
+
+        // Create a new User object from the request
+        User newUser = User.builder()
+                .name(name)
+                .email(userRequest.getEmail())
+                .pwd(userRequest.getPassword())
+                .role(userRequest.getRole())
+                .build();
+
+        // Save the new user
+        return userRepository.save(newUser);
     }
 
     @Override
-    public UserDto getUser(String email) {
-        return userServiceImp.getUserByEmail(email);
+    public User getUser(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            System.out.println(userOptional.get().toString());
+            return userOptional.get();
+        } else {
+            throw new ResourceNotFoundException(
+                    String.format("User with email [%s] not found", email)
+            );
+        }
     }
 
     @Override
@@ -84,12 +115,10 @@ public class AdminServiceImp implements AdminService {
         oldUser.setLogin(newUser.getLogin());
         oldUser.setPicture(newUser.getPicture());
         oldUser.setRole(newUser.getRole());
-        // Update other fields as necessary
 
-        // Save the updated user back to the repository
+
         User updatedUser = userRepository.save(oldUser);
 
-        // Return the updated user
         return updatedUser;
     }
 

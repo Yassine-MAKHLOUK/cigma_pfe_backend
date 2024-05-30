@@ -7,6 +7,7 @@ import ma.org.licence.pfe.entities.Client;
 import ma.org.licence.pfe.entities.User;
 import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.requests.BookRequest;
+import ma.org.licence.pfe.requests.UserAddRequest;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public interface AdminService {
 
     /*** User Methods ***/
     public List<User> getAllUsers();
-    public User addUser(User user);
-    public UserDto getUser(String email);
+    public User addUser(UserAddRequest userRequest);
+    public User getUser(String email);
     public User updateUser(String email, User newUser);
     public void deleteUser(String email);
 

@@ -2,8 +2,12 @@ package ma.org.licence.pfe.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import ma.org.licence.pfe.dto.user.UserDto;
 import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.entities.User;
+import ma.org.licence.pfe.exceptions.BadRequestException;
+import ma.org.licence.pfe.requests.BarberRegisterRequest;
+import ma.org.licence.pfe.requests.UserAddRequest;
 import ma.org.licence.pfe.response.ResponseHandler;
 import ma.org.licence.pfe.services.AdminServiceImp;
 import org.springframework.http.HttpStatus;
@@ -31,7 +35,25 @@ public class AdminController {
         }
     }
 
-    //@PostMapping()
+    @GetMapping("/users/{email}")
+    public ResponseEntity<Object> getUser(@PathVariable String email) {
+        try {
+            User data = adminServiceImp.getUser(email);
+            return ResponseHandler.generateResponse("Data retrieved successfully!", HttpStatus.OK, data);
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity<Object> barberRegister(@RequestBody UserAddRequest request) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("User Added successfully!", HttpStatus.OK, adminServiceImp.addUser(request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
     //@PutMapping()
 

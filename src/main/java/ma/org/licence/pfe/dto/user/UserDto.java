@@ -5,6 +5,7 @@ import ma.org.licence.pfe.models.Login;
 import ma.org.licence.pfe.models.Name;
 import ma.org.licence.pfe.models.Picture;
 
+
 public record UserDto(
          String id,
          Name name,
