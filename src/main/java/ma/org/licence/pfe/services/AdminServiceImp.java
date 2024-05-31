@@ -128,9 +128,16 @@ public class AdminServiceImp implements AdminService {
     }
 
 
+
     /***
      * Barber Methods
      * ***/
+
+    @Override
+    public List<Barber> getAllBarbers() {
+        return barberRepository.findAllBarbers();
+    }
+
     @Override
     public Barber addBarber(BarberRegisterRequest request) {
         // Check if the barber name exists
@@ -185,21 +192,21 @@ public class AdminServiceImp implements AdminService {
         oldBarber.setPrestation(newBarber.getPrestation());
         oldBarber.setSchedule(newBarber.getSchedule());
 
-        // Update other fields as necessary
 
-        // Save the updated user back to the repository
-        Barber updatedBarber = barberRepository.save(oldBarber);
+        return barberRepository.save(oldBarber);
 
-        // Return the updated user
-        return updatedBarber;
     }
-
-
 
 
     /***
      * Client Methods
      * ***/
+
+    @Override
+    public List<Client> getAllClient() {
+        return List.of();
+    }
+
     @Override
     public Client addClient(Client client) {
         return null;
@@ -216,11 +223,14 @@ public class AdminServiceImp implements AdminService {
     }
 
 
-
-
     /***
      * Bookings Methods
      * ***/
+
+    @Override
+    public List<Book> getAllBook() {
+        return List.of();
+    }
 
     @Override
     public Book addBook(BookRequest book, String email) {

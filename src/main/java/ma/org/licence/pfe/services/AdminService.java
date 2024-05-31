@@ -21,17 +21,20 @@ public interface AdminService {
     public void deleteUser(String email);
 
     /*** Barber Methods ***/
+    public List<Barber> getAllBarbers();
     public Barber addBarber(BarberRegisterRequest request);
     public Barber getBarber(String barberName);
     public Barber updateBarber(String barberName, Barber newBarber);
 
     /*** Client Methods ***/
+    public List<Client> getAllClient();
     public Client addClient(Client client);
     public Client getClient(String email);
     public Client updateClient(String email);
 
 
     /*** Bookings Methods ***/
+    public List<Book> getAllBook();
     public Book addBook(BookRequest book, String email);
     public Book getBook(String email);
     public Book updateBook(String id, Book newBooking);
