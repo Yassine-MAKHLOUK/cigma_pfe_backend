@@ -63,8 +63,8 @@ public class AdminServiceImp implements AdminService {
     @Override
     public User addUser(UserAddRequest userRequest) {
 
-        Name name = new Name("", userRequest.getFirstname(), userRequest.getMiddlename(), userRequest.getLastname());
-
+        Name UserName = new Name("", userRequest.getFirstname(), userRequest.getMiddlename(), userRequest.getLastname());
+        String pwd = passwordEncoder.encode(userRequest.getPassword());
         Optional<User> existingUser = userRepository.findByEmail(userRequest.getEmail());
 
         if (existingUser.isPresent()) {
@@ -72,10 +72,10 @@ public class AdminServiceImp implements AdminService {
         }
 
         // Create a new User object from the request
-        User newUser = User.builder()
-                .name(name)
+        var newUser = User.builder()
+                .name(UserName)
                 .email(userRequest.getEmail())
-                .pwd(userRequest.getPassword())
+                .pwd(pwd)
                 .role(userRequest.getRole())
                 .build();
 
@@ -100,7 +100,7 @@ public class AdminServiceImp implements AdminService {
     public User updateUser(String id, User newUser) {
         // Find the old user by id
         Optional<User> optionalOldUser = userRepository.findById(id);
-
+        String pwd = passwordEncoder.encode(newUser.getPwd());
         // Check if the user exists
         if (!optionalOldUser.isPresent()) {
             throw new UserNotFoundException("User with id " + id + " not found");
@@ -111,7 +111,7 @@ public class AdminServiceImp implements AdminService {
         // Update the old user's details with new user's details
         oldUser.setName(newUser.getName());
         oldUser.setEmail(newUser.getEmail());
-        oldUser.setPwd(newUser.getPwd());
+        oldUser.setPwd(pwd);
         oldUser.setLogin(newUser.getLogin());
         oldUser.setPicture(newUser.getPicture());
         oldUser.setRole(newUser.getRole());

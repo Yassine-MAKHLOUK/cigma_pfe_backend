@@ -45,8 +45,8 @@ public class AdminController {
         }
     }
 
-    @PostMapping()
-    public ResponseEntity<Object> barberRegister(@RequestBody UserAddRequest request) throws BadRequestException {
+    @PostMapping("/users/add")
+    public ResponseEntity<Object> addUser(@RequestBody UserAddRequest request) throws BadRequestException {
         try {
             return ResponseHandler.generateResponse("User Added successfully!", HttpStatus.OK, adminServiceImp.addUser(request));
         } catch (Exception e) {
@@ -55,7 +55,15 @@ public class AdminController {
 
     }
 
-    //@PutMapping()
+    @PutMapping("/users/update/{id}")
+    public ResponseEntity<Object> updateUser(@RequestBody User user, @PathVariable String id) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("User updated successfully!", HttpStatus.OK, adminServiceImp.updateUser(id, user));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
     //@DeleteMapping
 
