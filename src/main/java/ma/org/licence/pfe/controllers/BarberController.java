@@ -5,6 +5,7 @@ import ma.org.licence.pfe.entities.Barber;
 import ma.org.licence.pfe.exceptions.BadRequestException;
 import ma.org.licence.pfe.requests.BarberPrestationRequest;
 import ma.org.licence.pfe.requests.SetAdressRequest;
+import ma.org.licence.pfe.requests.SetScheduleRequest;
 import ma.org.licence.pfe.response.ResponseHandler;
 import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.services.BarberServiceImp;
@@ -55,6 +56,16 @@ public class BarberController {
     public ResponseEntity<Object> setBarberAddress(@RequestBody SetAdressRequest request) throws BadRequestException {
         try {
             return ResponseHandler.generateResponse("Address Added successfully!", HttpStatus.OK, barberServiceImp.setBarberAddress(request.getToken(), request));
+        } catch (Exception e) {
+            return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("/barberSchedule")
+    public ResponseEntity<Object> setBarberSchedule(@RequestBody SetScheduleRequest request) throws BadRequestException {
+        try {
+            return ResponseHandler.generateResponse("Schedule Added successfully!", HttpStatus.OK, barberServiceImp.setBarberSchedule(request.getToken(), request));
         } catch (Exception e) {
             return ResponseHandler.generateErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

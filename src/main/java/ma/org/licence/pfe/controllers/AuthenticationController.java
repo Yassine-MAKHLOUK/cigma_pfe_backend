@@ -39,7 +39,7 @@ public class AuthenticationController {
         }
     }
 
-    @GetMapping("/userRole/{token}")
+    @GetMapping("/user/{token}")
     public ResponseEntity<Object> userRole(@PathVariable String token){
         try {
             return ResponseHandler.generateResponse("Logged successfully!", HttpStatus.OK, authenticationServiceImp.userRoleByEmail(token));

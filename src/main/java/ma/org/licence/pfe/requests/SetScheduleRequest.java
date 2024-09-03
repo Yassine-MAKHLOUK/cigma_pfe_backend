@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.org.licence.pfe.models.DayTime;
+
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookRequest {
-
-    private String barberName;
-    private String date;
-    private String service;
+public class SetScheduleRequest {
     private String token;
+    private List<DayTime> scheduleDays;
 }

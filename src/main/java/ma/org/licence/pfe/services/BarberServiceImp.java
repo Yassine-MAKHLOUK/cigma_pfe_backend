@@ -9,6 +9,7 @@ import ma.org.licence.pfe.models.*;
 import ma.org.licence.pfe.repositories.BarberRepository;
 import ma.org.licence.pfe.requests.BarberPrestationRequest;
 import ma.org.licence.pfe.requests.SetAdressRequest;
+import ma.org.licence.pfe.requests.SetScheduleRequest;
 import ma.org.licence.pfe.security.AuthenticationResponse;
 import ma.org.licence.pfe.requests.BarberRegisterRequest;
 import ma.org.licence.pfe.security.JwtService;
@@ -132,6 +133,22 @@ public class BarberServiceImp implements BarberService{
         barber.setAddress(barberAddress);
         barberRepository.save(barber);
         return barber.getAddress();
+    }
+
+    @Override
+    public List<Schedule> setBarberSchedule(String token, SetScheduleRequest request) {
+        String email = jwtService.extractUsername(request.getToken());
+        Barber barber = barberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Barber not found"));
+        List<Schedule> schedule = new ArrayList<Schedule>();
+
+        for( DayTime elem : request.getScheduleDays()){
+            schedule.add(new Schedule(elem.getDay(), LocalTime.parse(elem.getStartTime()), LocalTime.parse(elem.getEndTime()), elem.getBarberState(), "" ));
+        }
+
+        barber.setSchedule(schedule);
+        barberRepository.save(barber);
+        return barber.getSchedule();
     }
 
 }
